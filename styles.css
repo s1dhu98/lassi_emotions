@@ -1,0 +1,129 @@
+:root{
+  --bg:#0f1724;
+  --panel:#0b1220;
+  --accent:#ffd57e;
+  --glass:#eaf6ff;
+}
+*{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
+html,body,#root{height:100%}
+body{
+  margin:0;background:linear-gradient(180deg,#071029 0%, #0f1724 60%);color:#e6eef8;
+}
+.app{display:flex;min-height:100vh}
+.sidebar{width:320px;padding:24px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-right:1px solid rgba(255,255,255,0.03)}
+.sidebar h1{margin:0 0 12px;font-size:20px}
+.emotions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:60vh;overflow:auto;padding-bottom:8px}
+.emotions-grid button{background:#0c1a2b;border:1px solid rgba(255,255,255,0.04);color:#dfefff;padding:8px;border-radius:8px;cursor:pointer;text-align:left}
+.emotions-grid button:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+.controls{margin-top:12px;display:flex;gap:8px}
+.controls button{flex:1;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#08202b;font-weight:600;cursor:pointer}
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.scene{position:relative;width:560px;height:640px;display:flex;align-items:center;justify-content:center}
+svg{width:360px;height:480px}
+.footer{margin-top:12px;opacity:0.7}
+
+/* particles container */
+.particles{position:absolute;inset:0;pointer-events:none}
+
+/* Base lassi styles */
+#lassi{transition:fill 600ms ease, transform 400ms}
+.surface{transition:d 400ms ease}
+.eyes{transition:transform 300ms ease}
+#mouth{transition:stroke 300ms, d 300ms}
+
+/* generic emotion class reset */
+.is-animated #lassiGroup{transition:none}
+
+/* Many emotion classes */
+.emotion-happy #mouth{d:path('M130 285 Q150 310 170 285');stroke:#4b2;color:#000}
+.emotion-happy #lassi{fill:linear-gradient(#fff1b8,#ffe6b3)}
+.emotion-ecstatic #lassi{filter:drop-shadow(0 8px 18px rgba(255,200,80,0.25))}
+.emotion-ecstatic .surface{animation:wave 1.2s ease-in-out infinite}
+
+@keyframes wave{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+.emotion-sad #eyes{transform:translateY(6px) scaleY(0.7)}
+.emotion-sad #mouth{d:path('M130 295 Q150 280 170 295');stroke:#5a3}
+.emotion-sad .surface{opacity:0.6}
+
+.emotion-angry #lassi{fill:#ffd6d6}
+.emotion-angry #mouth{d:path('M130 290 Q150 276 170 290');stroke:#a22}
+.emotion-angry svg{animation:shake 0.3s linear infinite}
+
+@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}100%{transform:translateX(0)}}
+
+.emotion-surprised #eyes ellipse{rx:12;ry:10}
+.emotion-surprised #mouth{d:path('M140 290 Q150 310 160 290');stroke:#442;width:5}
+
+.emotion-disgusted #lassi{filter:hue-rotate(-60deg)}
+.emotion-fearful #lassi{filter:grayscale(0.6);opacity:0.88}
+
+.emotion-calm #lassi{fill:#e8fff7}
+.emotion-relaxed #lassi{fill:#f0f8ff}
+.emotion-sleepy #eyes{transform:scaleY(0.2)}
+
+.emotion-bored #surface{transform:translateY(10px)}
+.emotion-shy #face{transform:translateY(4px)}
+.emotion-proud #lassi{transform:scale(1.02)}
+.emotion-embarrassed #lassi{filter:drop-shadow(0 0 8px rgba(255,120,120,0.5))}
+
+.emotion-anxious svg{animation:wobble 1s ease-in-out infinite}
+@keyframes wobble{0%{transform:rotate(0)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}100%{transform:rotate(0)}}
+
+.emotion-confident #lassi{filter:drop-shadow(0 10px 20px rgba(120,200,255,0.15));transform:translateY(-8px)}
+
+.emotion-love .particles::after{content:'';position:absolute;left:50%;top:30%;width:12px;height:12px;border-radius:50%;background:rgba(255,80,120,0.95);box-shadow:0 0 22px rgba(255,80,120,0.5);transform:translate(-50%,-50%);animation:heartrise 2s ease-out infinite}
+@keyframes heartrise{0%{transform:translate(-50%,10px) scale(0.9);opacity:0}50%{opacity:1}100%{transform:translate(-50%,-120px) scale(1);opacity:0}}
+
+.emotion-jealous #lassi{filter:hue-rotate(100deg)}
+.emotion-playful #surface{animation:playful-swirl 1.8s linear infinite}
+@keyframes playful-swirl{0%{transform:translateX(0)}50%{transform:translateX(8px)}100%{transform:translateX(0)}}
+
+.emotion-determined #lassi{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
+.emotion-curious #eyes{transform:translateY(-4px)}
+
+.emotion-suspicious #eyes{transform:translateX(-4px)}
+.emotion-hopeful #lassi{filter:brightness(1.06)}
+.emotion-disappointed #mouth{d:path('M130 295 Q150 285 170 295');stroke:#886}
+
+.emotion-content #mouth{d:path('M130 290 Q150 299 170 290');stroke:#5a3}
+.emotion-nostalgic #lassi{filter:sepia(0.15)}
+
+.emotion-frustrated svg{animation:shake 0.18s linear infinite}
+.emotion-astonished #eyes ellipse{rx:14;ry:12}
+
+.emotion-mischievous #mouth{d:path('M130 285 Q150 270 170 285');stroke:#330}
+.emotion-grateful .particles::after{content:'';position:absolute;left:50%;top:20%;width:18px;height:18px;border-radius:50%;background:rgba(255,230,120,0.9);filter:blur(6px);animation:glowup 2s infinite}
+@keyframes glowup{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
+.emotion-overwhelmed .surface{transform:translateY(-20px)}
+.emotion-peaceful #lassi{fill:#f7fff6}
+.emotion-energetic #lassi{animation:pop 0.6s ease infinite}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+
+.emotion-dreamy #lassi{filter:drop-shadow(0 20px 60px rgba(160,120,255,0.08))}
+.emotion-silly #mouth{d:path('M130 295 Q150 320 170 295');stroke:#d22}
+
+.emotion-scared .particles::after{content:'';position:absolute;left:50%;top:40%;width:8px;height:18px;background:rgba(200,220,255,0.95);border-radius:4px;animation:tears 1s infinite}
+@keyframes tears{0%{transform:translateY(0);opacity:1}100%{transform:translateY(140px);opacity:0}}
+
+.emotion-relieved #mouth{d:path('M130 285 Q150 295 170 285');stroke:#2a5}
+.emotion-chilly #lassi{filter:brightness(0.9) hue-rotate(200deg)}
+.emotion-hot #lassi{filter:brightness(1.05) hue-rotate(-10deg)}
+
+.emotion-hyper svg{animation:spin 0.9s linear infinite}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+.emotion-lazy #lassi{transform:translateY(6px)}
+.emotion-melancholic #lassi{filter:grayscale(0.45) sepia(0.2)}
+.emotion-tense svg{animation:tensePulse 1s infinite}
+@keyframes tensePulse{0%{transform:scale(1)}50%{transform:scale(1.01)}100%{transform:scale(1)}}
+
+.emotion-serene #lassi{fill:#f6fff8}
+.emotion-ecstatic .particles::after{content:'';position:absolute;left:50%;top:10%;width:200px;height:200px;background:radial-gradient(circle, rgba(255,255,150,0.2), transparent);transform:translate(-50%,-50%)}
+
+/* particles style for programmatic particles */
+.particle{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen}
+
+/* small responsive tweaks */
+@media(max-width:900px){.sidebar{display:none}.scene{width:90vw}}

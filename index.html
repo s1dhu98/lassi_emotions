@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lassi Emotions — Interactive</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>Pick an emotion</h1>
+      <div id="emotions" class="emotions-grid"></div>
+      <div class="controls">
+        <button id="btn-random">Random</button>
+        <button id="btn-reset">Reset</button>
+      </div>
+      <p class="hint">Tip: Try dramatic ones like <em>ecstatic</em>, <em>melancholic</em>, or <em>playful</em>.</p>
+    </aside>
+
+    <main class="stage">
+      <div class="scene">
+        <div id="particles" class="particles"></div>
+        <!-- SVG glass and lassi -->
+        <svg id="glass" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lassiGrad" x1="0" x2="1">
+              <stop offset="0%" stop-color="#fff7e6" />
+              <stop offset="100%" stop-color="#ffe6f2" />
+            </linearGradient>
+            <clipPath id="glassClip">
+              <path d="M60 30 L240 30 L210 420 L90 420 Z" />
+            </clipPath>
+          </defs>
+
+          <!-- Glass outline -->
+          <path class="glass-outline" d="M60 30 L240 30 L210 420 L90 420 Z" fill="rgba(255,255,255,0.06)" stroke="#bcd" stroke-width="3"/>
+
+          <!-- Lassi liquid group -->
+          <g id="lassiGroup" clip-path="url(#glassClip)">
+            <rect id="lassi" x="60" y="170" width="180" height="250" rx="20" ry="20" fill="url(#lassiGrad)" />
+            <!-- animated surface wave -->
+            <path id="surface" class="surface" d="M60 220 Q120 200 180 220 T300 220 L300 420 L60 420 Z" fill="#fff8ee" opacity="0.9"/>
+            <!-- face -->
+            <g id="face" transform="translate(0,0)">
+              <g id="eyes" class="eyes">
+                <ellipse cx="120" cy="250" rx="8" ry="6" fill="#111" />
+                <ellipse cx="180" cy="250" rx="8" ry="6" fill="#111" />
+              </g>
+              <path id="mouth" d="M130 285 Q150 300 170 285" stroke="#552" stroke-width="4" stroke-linecap="round" fill="none" />
+            </g>
+          </g>
+
+          <!-- glass reflections -->
+          <path d="M80 60 C95 50, 110 50, 130 60" stroke="#fff" stroke-opacity="0.2" stroke-width="8" fill="none" />
+        </svg>
+      </div>
+      <footer class="footer">Lassi Emotions — 40+ reactions. Colors, bubbles, particles & facial animations.</footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
