@@ -403,8 +403,88 @@ function cleanupParticles() {
   });
 }
 
+// Performance optimizations for different devices
+function optimizeForDevice() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const isLowPower = navigator.hardwareConcurrency <= 4;
+  
+  // Adjust particle counts for mobile/low-power devices
+  const particleMultiplier = isMobile ? (isLowPower ? 0.3 : 0.6) : 1;
+  
+  return {
+    confettiCount: Math.floor(28 * particleMultiplier),
+    bubbleCount: Math.floor(18 * particleMultiplier),
+    tearCount: Math.floor(8 * particleMultiplier),
+    sparkCount: Math.floor(12 * particleMultiplier),
+    heartCount: Math.floor(15 * particleMultiplier),
+    starCount: Math.floor(20 * particleMultiplier),
+    useSimpleAnimations: isMobile && isLowPower
+  };
+}
+
+// Update particle emission functions to use optimized counts
+function emitParticlesOptimized(type, baseCount) {
+  const { useSimpleAnimations } = optimizeForDevice();
+  const count = Math.floor(baseCount * (useSimpleAnimations ? 0.5 : 1));
+  
+  switch(type) {
+    case 'confetti':
+      emitConfetti({ count });
+      break;
+    case 'bubbles':
+      emitBubbles({ count, rainbow: !useSimpleAnimations });
+      break;
+    case 'tears':
+      emitTears({ count });
+      break;
+    case 'sparks':
+      emitSparks({ count });
+      break;
+    case 'hearts':
+      emitHearts({ count });
+      break;
+    case 'stars':
+      emitStars({ count });
+      break;
+  }
+}
+
 // Cleanup particles periodically
 setInterval(cleanupParticles, 1000);
+
+// Mobile touch handling
+function handleTouchStart(e) {
+  // Prevent default only for buttons to allow scrolling
+  if(e.target.tagName === 'BUTTON') {
+    e.preventDefault();
+  }
+}
+
+function setupMobileOptimizations() {
+  // Add touch handlers
+  document.addEventListener('touchstart', handleTouchStart, {passive: false});
+  
+  // Handle mobile height issues (Safari)
+  function updateMobileHeight() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+  }
+  
+  updateMobileHeight();
+  window.addEventListener('resize', updateMobileHeight);
+  
+  // Handle orientation changes
+  window.addEventListener('orientationchange', () => {
+    setTimeout(updateMobileHeight, 100);
+  });
+  
+  // Improve scroll performance
+  if(CSS.supports('overflow-anchor: auto')) {
+    emotionContainer.style.overflowAnchor = 'none';
+  }
+}
+
+// Setup mobile optimizations
+setupMobileOptimizations();
 
 // Initialize with a happy emotion
 applyEmotion('happy');
