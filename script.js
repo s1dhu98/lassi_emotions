@@ -1,9 +1,25 @@
+// Enhanced emotions with intensity levels and categories
 const EMOTIONS = [
-  'happy','sad','angry','surprised','disgusted','fearful','calm','excited','sleepy','bored',
-  'shy','proud','embarrassed','anxious','confident','love','jealous','playful','determined','relaxed',
-  'confused','curious','suspicious','hopeful','disappointed','content','nostalgic','frustrated','astonished','mischievous',
-  'grateful','overwhelmed','peaceful','energetic','dreamy','silly','scared','relieved','chilly','hot',
-  'hyper','lazy','melancholic','tense','serene','ecstatic','jealous2','wistful'
+  // Joy spectrum
+  'happy', 'ecstatic', 'joyful', 'delighted', 'cheerful', 'blissful',
+  // Sadness spectrum
+  'sad', 'melancholic', 'gloomy', 'depressed', 'heartbroken', 'devastated',
+  // Anger spectrum
+  'angry', 'furious', 'enraged', 'irritated', 'annoyed', 'grumpy',
+  // Fear spectrum
+  'scared', 'terrified', 'anxious', 'nervous', 'worried', 'panicked',
+  // Love spectrum
+  'love', 'adoring', 'affectionate', 'romantic', 'passionate', 'smitten',
+  // Surprise spectrum
+  'surprised', 'shocked', 'astonished', 'amazed', 'startled', 'dumbfounded',
+  // Energy spectrum
+  'energetic', 'hyper', 'excited', 'bouncy', 'vibrant', 'lively',
+  // Calm spectrum
+  'calm', 'peaceful', 'relaxed', 'serene', 'tranquil', 'zen',
+  // Playful spectrum
+  'playful', 'silly', 'mischievous', 'goofy', 'giggly', 'whimsical',
+  // Confidence spectrum
+  'confident', 'proud', 'bold', 'determined', 'brave', 'heroic'
 ];
 
 // normalize list to unique non-duplicate names (remove 'jealous2' rename)
@@ -14,14 +30,34 @@ const particles = document.getElementById('particles');
 const glass = document.getElementById('glass');
 const lassiGroup = document.getElementById('lassiGroup');
 
-function makeButton(name){
+// Search functionality
+const searchInput = document.getElementById('emotion-search');
+let filteredEmotions = [...EMOTIONS];
+
+function makeButton(name) {
   const btn = document.createElement('button');
-  btn.textContent = name.replace(/^[a-z]/, c=>c.toUpperCase());
-  btn.addEventListener('click', ()=>applyEmotion(name));
+  const span = document.createElement('span');
+  span.textContent = name.replace(/^[a-z]/, c => c.toUpperCase());
+  btn.appendChild(span);
+  btn.addEventListener('click', () => applyEmotion(name));
   return btn;
 }
 
-EMOTIONS.forEach(e=>emotionContainer.appendChild(makeButton(e)));
+function updateEmotionsList(filter = '') {
+  emotionContainer.innerHTML = '';
+  const filtered = EMOTIONS.filter(e => 
+    e.toLowerCase().includes(filter.toLowerCase())
+  );
+  filtered.forEach(e => emotionContainer.appendChild(makeButton(e)));
+  filteredEmotions = filtered;
+}
+
+searchInput.addEventListener('input', (e) => {
+  updateEmotionsList(e.target.value);
+});
+
+// Initial render
+updateEmotionsList();
 
 document.getElementById('btn-random').addEventListener('click', ()=>{
   const r = EMOTIONS[Math.floor(Math.random()*EMOTIONS.length)];
@@ -63,25 +99,52 @@ function resetEmotion(){
   if(dyn) dyn.remove();
 }
 
-function applyEmotion(name){
+function applyEmotion(name) {
   resetEmotion();
-  const cls = 'emotion-' + name.replace(/[^a-z0-9]/g,'-');
-  // apply on stage wrapper (body/app) or svg
+  const cls = 'emotion-' + name.replace(/[^a-z0-9]/g, '-');
   document.querySelector('.app').classList.add(cls);
 
-  // trigger some programmatic particle effects for select emotions
-  if(name==='happy' || name==='ecstatic' || name==='energetic'){
-    emitConfetti({count:28});
+  // Enhanced emotion-based effects
+  const emotionType = name.toLowerCase();
+  
+  // Joy spectrum
+  if(['happy', 'ecstatic', 'joyful', 'delighted', 'cheerful', 'blissful'].includes(emotionType)) {
+    emitConfetti({ count: 35, colors: ['#FFD700', '#FFA500', '#FF69B4'] });
+    animateFace('happy', { intensity: emotionType === 'ecstatic' ? 1.5 : 1 });
   }
-  if(name==='sad' || name==='scared'){
-    emitTears({count:8});
+  
+  // Sadness spectrum
+  if(['sad', 'melancholic', 'gloomy', 'depressed', 'heartbroken', 'devastated'].includes(emotionType)) {
+    emitTears({ count: emotionType === 'devastated' ? 12 : 8 });
+    animateFace('sad', { intensity: emotionType === 'devastated' ? 1.5 : 1 });
   }
-  if(name==='playful' || name==='silly'){
-    emitBubbles({count:18});
+  
+  // Playful spectrum
+  if(['playful', 'silly', 'mischievous', 'goofy', 'giggly', 'whimsical'].includes(emotionType)) {
+    emitBubbles({ count: 24, rainbow: true });
+    animateFace('playful', { bouncy: true });
   }
-  if(name==='angry' || name==='frustrated'){
-    emitSparks({count:12});
+  
+  // Anger spectrum
+  if(['angry', 'furious', 'enraged', 'irritated', 'annoyed', 'grumpy'].includes(emotionType)) {
+    emitSparks({ count: emotionType === 'furious' ? 20 : 12 });
+    animateFace('angry', { intensity: emotionType === 'furious' ? 1.5 : 1 });
   }
+  
+  // Love spectrum
+  if(['love', 'adoring', 'affectionate', 'romantic', 'passionate', 'smitten'].includes(emotionType)) {
+    emitHearts({ count: 15 });
+    animateFace('love');
+  }
+
+  // Surprise spectrum
+  if(['surprised', 'shocked', 'astonished', 'amazed', 'startled'].includes(emotionType)) {
+    emitStars({ count: 20 });
+    animateFace('surprised');
+  }
+
+  // Update liquid color based on emotion
+  updateLiquidGradient(emotionType);
 
   // change face shapes for a few emotions
   const mouth = document.getElementById('mouth');
@@ -202,12 +265,146 @@ function injectKeyframes(rule){
   sheet.sheet.insertRule(rule, sheet.sheet.cssRules.length);
 }
 
-// A small helper to clear particles periodically
-setInterval(()=>{
-  const now = Date.now();
-  // remove if too many
-  if(particles.children.length>200) particles.innerHTML = '';
-},2000);
+function animateFace(type, options = {}) {
+  const mouth = document.getElementById('mouth');
+  const eyes = document.getElementById('eyes');
+  const face = document.getElementById('face');
+  
+  const intensity = options.intensity || 1;
+  
+  switch(type) {
+    case 'happy':
+      mouth.setAttribute('d', `M130 ${285 + 25 * intensity} Q150 ${310 + 30 * intensity} 170 ${285 + 25 * intensity}`);
+      eyes.style.transform = 'scaleY(1.2)';
+      if(options.bouncy) face.style.animation = 'bounce 0.8s infinite';
+      break;
+    case 'sad':
+      mouth.setAttribute('d', `M130 ${295 - 15 * intensity} Q150 ${280 - 20 * intensity} 170 ${295 - 15 * intensity}`);
+      eyes.style.transform = 'translateY(6px) scaleY(0.7)';
+      break;
+    case 'angry':
+      mouth.setAttribute('d', `M130 ${290 - 10 * intensity} Q150 ${276 - 15 * intensity} 170 ${290 - 10 * intensity}`);
+      eyes.style.transform = 'rotate(-5deg) scaleY(0.8)';
+      break;
+    case 'surprised':
+      eyes.querySelectorAll('ellipse').forEach(el => {
+        el.setAttribute('rx', 14);
+        el.setAttribute('ry', 12);
+      });
+      mouth.setAttribute('d', 'M140 290 Q150 320 160 290');
+      break;
+    case 'love':
+      mouth.setAttribute('d', 'M130 285 Q150 310 170 285');
+      eyes.style.transform = 'scaleY(0.6)';
+      face.style.animation = 'pulse 1s infinite';
+      break;
+    case 'playful':
+      mouth.setAttribute('d', 'M130 285 Q150 320 170 285');
+      eyes.style.transform = 'rotate(5deg)';
+      face.style.animation = 'bounce 0.6s infinite';
+      break;
+  }
+}
 
-// initialize with a default emotion
+function updateLiquidGradient(emotion) {
+  const lassi = document.getElementById('lassi');
+  const colors = {
+    happy: ['#fff1b8', '#ffe6b3'],
+    sad: ['#e6f3ff', '#d1e8ff'],
+    angry: ['#ffcdd2', '#ffebee'],
+    love: ['#ffe6eb', '#fff0f3'],
+    surprised: ['#e8f5e9', '#c8e6c9'],
+    playful: ['#f3e5f5', '#e1bee7'],
+    energetic: ['#fff3e0', '#ffe0b2'],
+    calm: ['#e8f5e9', '#c8e6c9']
+  };
+  
+  // Find the closest emotion category
+  let colorKey = Object.keys(colors).find(key => emotion.includes(key)) || 'happy';
+  
+  // Create and apply gradient
+  const grad = `linear-gradient(${colors[colorKey][0]}, ${colors[colorKey][1]})`;
+  lassi.style.fill = grad;
+}
+
+function emitHearts({ count = 15 } = {}) {
+  for(let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle heart';
+    p.style.left = (50 + random(-30, 30)) + '%';
+    p.style.top = (50 + random(-20, 20)) + '%';
+    p.style.fontSize = random(15, 25) + 'px';
+    p.innerHTML = '❤️';
+    p.style.animation = `heart-${i} ${random(1500, 2500)}ms ease-out forwards`;
+    particles.appendChild(p);
+    
+    const dx = random(-150, 150), dy = random(-200, -100);
+    const key = `@keyframes heart-${i}{
+      to{transform:translate(${dx}px,${dy}px) rotate(${random(-360, 360)}deg) scale(0.2);opacity:0}
+    }`;
+    injectKeyframes(key);
+  }
+}
+
+function emitStars({ count = 20 } = {}) {
+  for(let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle star';
+    p.style.left = (50 + random(-40, 40)) + '%';
+    p.style.top = (50 + random(-30, 30)) + '%';
+    p.style.fontSize = random(15, 25) + 'px';
+    p.innerHTML = '⭐';
+    p.style.animation = `star-${i} ${random(1000, 2000)}ms ease-out forwards`;
+    particles.appendChild(p);
+    
+    const dx = random(-200, 200), dy = random(-150, 150);
+    const key = `@keyframes star-${i}{
+      to{transform:translate(${dx}px,${dy}px) rotate(${random(-720, 720)}deg) scale(0.1);opacity:0}
+    }`;
+    injectKeyframes(key);
+  }
+}
+
+// Enhanced bubble emission with rainbow option
+function emitBubbles({count = 12, rainbow = false} = {}) {
+  for(let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.floor(random(6, 26));
+    p.style.width = p.style.height = size + 'px';
+    p.style.left = (50 + random(-40, 40)) + '%';
+    p.style.top = (65 + random(-20, 60)) + '%';
+    
+    if(rainbow) {
+      const hue = random(0, 360);
+      p.style.background = `hsla(${hue}, 80%, 80%, ${random(0.3, 0.9)})`;
+      p.style.border = `1px solid hsla(${hue}, 80%, 70%, 0.6)`;
+    } else {
+      p.style.background = `rgba(255,255,255,${random(0.3, 0.9)})`;
+      p.style.border = '1px solid rgba(255,255,255,0.6)';
+    }
+    
+    p.style.animation = `bubble-${i} ${random(1200, 3000)}ms linear forwards`;
+    particles.appendChild(p);
+    
+    const dy = random(-260, -80), dx = random(-40, 40);
+    const key = `@keyframes bubble-${i}{to{transform:translate(${dx}px,${dy}px) scale(0.4);opacity:0}}`;
+    injectKeyframes(key);
+  }
+}
+
+// Automatically remove completed particles
+function cleanupParticles() {
+  const particles = document.querySelectorAll('.particle');
+  particles.forEach(p => {
+    if(p.getAnimations().every(a => a.playState === 'finished')) {
+      p.remove();
+    }
+  });
+}
+
+// Cleanup particles periodically
+setInterval(cleanupParticles, 1000);
+
+// Initialize with a happy emotion
 applyEmotion('happy');

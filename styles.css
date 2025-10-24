@@ -3,6 +3,11 @@
   --panel:#0b1220;
   --accent:#ffd57e;
   --glass:#eaf6ff;
+  --gradient-1: linear-gradient(45deg, #ff6b6b, #ffd93d);
+  --gradient-2: linear-gradient(45deg, #4facfe, #00f2fe);
+  --gradient-3: linear-gradient(45deg, #fa709a, #fee140);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 *{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
 html,body,#root{height:100%}
@@ -13,10 +18,133 @@ body{
 .sidebar{width:320px;padding:24px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-right:1px solid rgba(255,255,255,0.03)}
 .sidebar h1{margin:0 0 12px;font-size:20px}
 .emotions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:60vh;overflow:auto;padding-bottom:8px}
-.emotions-grid button{background:#0c1a2b;border:1px solid rgba(255,255,255,0.04);color:#dfefff;padding:8px;border-radius:8px;cursor:pointer;text-align:left}
-.emotions-grid button:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,0.6)}
-.controls{margin-top:12px;display:flex;gap:8px}
-.controls button{flex:1;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#08202b;font-weight:600;cursor:pointer}
+.search-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+#emotion-search {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+#emotion-search:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 20px rgba(255,213,126,0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+.emotions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-height: calc(60vh - 60px);
+  overflow: auto;
+  padding: 4px;
+  padding-right: 8px;
+}
+
+.emotions-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.emotions-grid::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+  border-radius: 4px;
+}
+
+.emotions-grid::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+
+.emotions-grid button {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #dfefff;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s var(--animation-bounce);
+  position: relative;
+  overflow: hidden;
+}
+
+.emotions-grid button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.emotions-grid button:nth-child(3n)::before {
+  background: var(--gradient-2);
+}
+
+.emotions-grid button:nth-child(3n+1)::before {
+  background: var(--gradient-3);
+}
+
+.emotions-grid button span {
+  position: relative;
+  z-index: 1;
+}
+
+.emotions-grid button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px var(--shadow-color);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.emotions-grid button:hover::before {
+  opacity: 0.1;
+}
+
+.controls {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.controls button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #08202b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--animation-bounce);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  filter: brightness(1.1);
+}
 .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .scene{position:relative;width:560px;height:640px;display:flex;align-items:center;justify-content:center}
 svg{width:360px;height:480px}
@@ -26,19 +154,96 @@ svg{width:360px;height:480px}
 .particles{position:absolute;inset:0;pointer-events:none}
 
 /* Base lassi styles */
-#lassi{transition:fill 600ms ease, transform 400ms}
-.surface{transition:d 400ms ease}
-.eyes{transition:transform 300ms ease}
-#mouth{transition:stroke 300ms, d 300ms}
+#lassi {
+  transition: all 600ms var(--animation-bounce);
+  transform-origin: center;
+}
 
-/* generic emotion class reset */
-.is-animated #lassiGroup{transition:none}
+.surface {
+  transition: all 400ms ease;
+  transform-origin: center bottom;
+}
 
-/* Many emotion classes */
-.emotion-happy #mouth{d:path('M130 285 Q150 310 170 285');stroke:#4b2;color:#000}
-.emotion-happy #lassi{fill:linear-gradient(#fff1b8,#ffe6b3)}
-.emotion-ecstatic #lassi{filter:drop-shadow(0 8px 18px rgba(255,200,80,0.25))}
-.emotion-ecstatic .surface{animation:wave 1.2s ease-in-out infinite}
+.eyes {
+  transition: all 300ms var(--animation-bounce);
+  transform-origin: center;
+}
+
+#mouth {
+  transition: all 300ms var(--animation-bounce);
+  transform-origin: center;
+}
+
+#face {
+  transition: all 400ms var(--animation-bounce);
+}
+
+/* Liquid wave animation */
+@keyframes liquidWave {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-10px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Enhanced base animations */
+.surface {
+  animation: liquidWave 3s ease-in-out infinite;
+}
+
+/* Enhanced emotion classes */
+.emotion-happy {
+  --happy-color: #ffeb3b;
+}
+
+.emotion-happy #lassi {
+  fill: url(#happyGrad);
+  animation: bounce 1s var(--animation-bounce) infinite;
+}
+
+.emotion-happy #face {
+  animation: bounce 1s var(--animation-bounce) infinite;
+}
+
+.emotion-happy #mouth {
+  d: path('M130 285 Q150 315 170 285');
+  stroke: #4b2;
+  stroke-width: 5;
+}
+
+.emotion-happy .surface {
+  animation: liquidWave 2s ease-in-out infinite;
+  fill: rgba(255, 235, 59, 0.3);
+}
+
+.emotion-ecstatic #lassi {
+  fill: url(#ecstaticGrad);
+  filter: drop-shadow(0 8px 18px rgba(255,200,80,0.25));
+  animation: pulse 0.8s var(--animation-bounce) infinite;
+}
+
+.emotion-ecstatic #face {
+  animation: bounce 0.8s var(--animation-bounce) infinite;
+}
+
+.emotion-ecstatic .surface {
+  animation: liquidWave 1s ease-in-out infinite;
+  fill: rgba(255, 220, 100, 0.4);
+}
 
 @keyframes wave{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
 
