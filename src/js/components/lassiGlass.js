@@ -118,10 +118,10 @@ export class LassiGlassComponent {
     if (this.lassiRect) {
       if (isBrokenSad) {
         this.lassiRect.setAttribute('y', '140');
-        this.lassiRect.setAttribute('height', '280');
+        this.lassiRect.setAttribute('height', '320');
       } else {
-        this.lassiRect.setAttribute('y', '55');
-        this.lassiRect.setAttribute('height', '360');
+        this.lassiRect.setAttribute('y', '45');
+        this.lassiRect.setAttribute('height', '420');
       }
     }
 

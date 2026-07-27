@@ -124,156 +124,110 @@
         </filter>
 
         <!--
-          ▸ THE REALISTIC STEMLESS TUMBLER GLASS CLIP PATH
-            Smooth ergonomic curve:
-            - Top lip opening: x=82→218 (width 136) at y=60
-            - Plump bulging belly: x=42→258 (width 216) at y=220
-            - Thick rounded glass base: x=96→204 (width 108) at y=430
+          ▸ STEMLESS TUMBLER GLASS CLIP PATH (Matches User Reference Image)
+            Full rounded tumbler contour: wide belly (x=28→272), narrow top rim (x=80→220), rounded base (x=92→208).
         -->
         <clipPath id="glassClip">
-          <path d="M 82 60 C 66 60, 48 115, 42 220 C 36 325, 56 415, 96 430 C 120 438, 180 438, 204 430 C 244 415, 264 325, 258 220 C 252 115, 234 60, 218 60 Z"/>
+          <path d="M 80 62 C 60 62, 38 120, 32 230 C 26 340, 48 432, 92 445 C 118 452, 182 452, 208 445 C 252 432, 274 340, 268 230 C 262 120, 240 62, 220 62 Z"/>
         </clipPath>
 
       </defs>
 
       <!-- ── Soft Ambient Drop Shadow Under Base ── -->
-      <ellipse cx="150" cy="452" rx="88" ry="14"
-        fill="#000000" opacity="0.42" filter="url(#blurShadow)"/>
+      <ellipse cx="150" cy="458" rx="90" ry="14"
+        fill="#000000" opacity="0.45" filter="url(#blurShadow)"/>
 
       <!-- ── Spilled lassi puddle (heartbreak / sadness state) ── -->
       <g id="spillGroup" style="opacity:0;transition:opacity 0.5s ease;">
-        <ellipse cx="150" cy="452" rx="115" ry="18" fill="url(#lassiGrad)" opacity="0.85"/>
-        <ellipse cx="150" cy="452" rx="98"  ry="11" fill="#ffffff"        opacity="0.40"/>
-        <circle cx="78"  cy="448" r="5.5" fill="url(#lassiGrad)"/>
-        <circle cx="222" cy="455" r="6.5" fill="url(#lassiGrad)"/>
-        <circle cx="240" cy="447" r="3.8" fill="url(#lassiGrad)"/>
-        <circle cx="62"  cy="457" r="3"   fill="url(#lassiGrad)"/>
+        <ellipse cx="150" cy="458" rx="116" ry="18" fill="url(#lassiGrad)" opacity="0.85"/>
+        <ellipse cx="150" cy="458" rx="98"  ry="11" fill="#ffffff"        opacity="0.40"/>
+        <circle cx="78"  cy="454" r="5.5" fill="url(#lassiGrad)"/>
+        <circle cx="222" cy="461" r="6.5" fill="url(#lassiGrad)"/>
+        <circle cx="240" cy="453" r="3.8" fill="url(#lassiGrad)"/>
+        <circle cx="62"  cy="463" r="3"   fill="url(#lassiGrad)"/>
       </g>
 
       <!--
         ════════════════════════════════════════════════════════════
-         REALISTIC 3D STEMLESS TUMBLER GLASS ASSEMBLY
+         CUTE 3D STEMLESS TUMBLER GLASS (Match Reference Image)
         ════════════════════════════════════════════════════════════
       -->
       <g filter="url(#glassShadow)">
 
-        <!-- ── Clipped Liquid & Internal Glass Layer ── -->
+        <!-- ── Clipped Liquid & Foam Layer (FULL GLASS) ── -->
         <g clip-path="url(#glassClip)">
 
-          <!-- 1. Liquid fill (full volume lassi) -->
-          <rect id="lassi" x="30" y="55" width="240" height="360" fill="url(#lassiGrad)"/>
+          <!-- 1. Full Lassi Liquid Fill (100% full to top rim) -->
+          <rect id="lassi" x="20" y="45" width="260" height="420" fill="url(#lassiGrad)"/>
 
-          <!-- 2. Volumetric 3D depth shading -->
-          <rect x="30" y="55" width="240" height="360" fill="url(#lassiDepth)"/>
+          <!-- 2. Soft 3D Volumetric Radial Shading (adds 3D roundness without extra lines) -->
+          <rect x="20" y="45" width="260" height="420" fill="url(#lassiDepth)"/>
 
-          <!-- 3. Liquid surface wave (curved perspective matching top rim) -->
+          <!-- 3. Liquid Surface Foam Wave -->
           <path id="surface" class="wave-surface"
-            d="M 35 85 Q 92 70 150 85 T 265 85 L 265 110 Q 150 126 35 110 Z"
+            d="M 25 78 Q 92 65 150 78 T 275 78 L 275 100 Q 150 115 25 100 Z"
             fill="url(#foamGrad)"/>
 
-          <!-- 4. 3D Spherical Foam Bubbles (frothy top crown) -->
+          <!-- 4. Soft Foam Aeration Bubbles -->
           <g id="foamBubbles">
-            <!-- Back row (smaller, softer) -->
             <g class="bub-d">
-              <circle cx="96"  cy="80" r="8"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="93"  cy="77" r="2.4" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="96"  cy="76" r="8"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle cx="93"  cy="73" r="2.4" fill="#ffffff" opacity="0.9"/>
             </g>
             <g class="bub-g">
-              <circle cx="116" cy="76" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="112" cy="72" r="3"  fill="rgba(255,255,255,0.95)"/>
-            </g>
-            <g class="bub-j">
-              <circle cx="138" cy="73" r="9"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="134" cy="69" r="2.7" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="116" cy="72" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle cx="112" cy="68" r="3"  fill="#ffffff" opacity="0.9"/>
             </g>
             <g class="bub-b">
-              <circle cx="160" cy="71" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="155" cy="67" r="3.3" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="160" cy="70" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle cx="155" cy="66" r="3.3" fill="#ffffff" opacity="0.9"/>
             </g>
             <g class="bub-k">
-              <circle cx="182" cy="74" r="9"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="178" cy="70" r="2.7" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="182" cy="72" r="9"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle cx="178" cy="68" r="2.7" fill="#ffffff" opacity="0.9"/>
             </g>
-            <g class="bub-e">
-              <circle cx="202" cy="78" r="8"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
-              <circle cx="198" cy="74" r="2.4" fill="rgba(255,255,255,0.95)"/>
-            </g>
-
-            <!-- Front row (larger, crisp specular shine) -->
             <g class="bub-a">
-              <circle cx="86"  cy="94" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="81"  cy="89" r="3"  fill="rgba(255,255,255,0.98)"/>
+              <circle cx="86"  cy="88" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <circle cx="81"  cy="83" r="3"  fill="#ffffff" opacity="0.95"/>
             </g>
             <g class="bub-h">
-              <circle cx="110" cy="91" r="13" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="104" cy="85" r="4"  fill="rgba(255,255,255,0.98)"/>
-            </g>
-            <g class="bub-c">
-              <circle cx="135" cy="97" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="129" cy="91" r="3.3" fill="rgba(255,255,255,0.98)"/>
+              <circle cx="110" cy="85" r="13" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <circle cx="104" cy="79" r="4"  fill="#ffffff" opacity="0.95"/>
             </g>
             <g class="bub-f">
-              <circle cx="155" cy="95" r="14" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="148" cy="88" r="4.2" fill="rgba(255,255,255,0.98)"/>
+              <circle cx="155" cy="88" r="14" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <circle cx="148" cy="81" r="4.2" fill="#ffffff" opacity="0.95"/>
             </g>
             <g class="bub-i">
-              <circle cx="178" cy="97" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="172" cy="91" r="3.3" fill="rgba(255,255,255,0.98)"/>
-            </g>
-            <g class="bub-l">
-              <circle cx="200" cy="92" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
-              <circle cx="195" cy="87" r="3"  fill="rgba(255,255,255,0.98)"/>
+              <circle cx="178" cy="90" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+              <circle cx="172" cy="84" r="3.3" fill="#ffffff" opacity="0.95"/>
             </g>
           </g>
 
-          <!-- 5. Toppings container (rendered by JS on top of foam) -->
+          <!-- 5. Toppings (floating on top) -->
           <g id="toppingsGroup"></g>
 
-          <!-- 6. Glass wall material overlay -->
-          <rect x="30" y="55" width="240" height="390" fill="url(#glassOverlay)"/>
+          <!-- 6. Soft Glass Specular Overlay (NO STROKE LINES) -->
+          <rect x="20" y="45" width="260" height="420" fill="url(#glassOverlay)"/>
 
-          <!-- 7. Slow glass shimmer sweep effect -->
+          <!-- 7. Slow Shimmer Sweep -->
           <rect class="glass-shimmer"
-            x="30" y="55" width="32" height="390"
-            fill="rgba(255,255,255,0.18)" rx="8" pointer-events="none"/>
+            x="20" y="45" width="34" height="420"
+            fill="rgba(255,255,255,0.16)" rx="8" pointer-events="none"/>
 
-          <!-- 8. Left wall curved caustic highlights (follows tumbler contour) -->
-          <path d="M 80 65 C 64 120, 50 220, 90 422"
-            stroke="rgba(255,255,255,0.38)" stroke-width="12"
-            stroke-linecap="round" fill="none"/>
-          <path d="M 82 65 C 66 120, 52 220, 92 422"
-            stroke="rgba(255,255,255,0.85)" stroke-width="3"
-            stroke-linecap="round" fill="none"/>
+        </g> <!-- End of clipped liquid group -->
 
-          <!-- 9. Right wall subtle caustic reflection -->
-          <path d="M 220 65 C 236 120, 250 220, 210 422"
-            stroke="rgba(255,255,255,0.22)" stroke-width="8"
-            stroke-linecap="round" fill="none"/>
+        <!-- ── Clean Glass Contour & Signature Dark Rim ── -->
 
-          <!-- 10. Heavy solid glass bottom base (thick clear glass bottom) -->
-          <path d="M 46 405 C 56 422, 96 434, 150 434 C 204 434, 244 422, 254 405 C 240 428, 195 438, 150 438 C 105 438, 60 428, 46 405 Z"
-            fill="rgba(255,255,255,0.24)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-          <ellipse cx="150" cy="420" rx="72" ry="10" fill="url(#baseGlow)"/>
-
-        </g> <!-- End of clipped group -->
-
-        <!-- ── Unclipped Glass Surface Features ── -->
-
-        <!-- 11. Glass outer contour outline (crisp ergonomic glass tumbler border) -->
-        <path d="M 82 60 C 66 60, 48 115, 42 220 C 36 325, 56 415, 96 430 C 120 438, 180 438, 204 430 C 244 415, 264 325, 258 220 C 252 115, 234 60, 218 60 Z"
+        <!-- 8. Smooth Outer Glass Contour Outline (No internal lines!) -->
+        <path d="M 80 62 C 60 62, 38 120, 32 230 C 26 340, 48 432, 92 445 C 118 452, 182 452, 208 445 C 252 432, 274 340, 268 230 C 262 120, 240 62, 220 62 Z"
           fill="none"
-          stroke="rgba(255,255,255,0.72)" stroke-width="3"
+          stroke="rgba(255,255,255,0.78)" stroke-width="3"
           stroke-linecap="round" stroke-linejoin="round"/>
 
-        <!-- 12. Transparent Glass Top Rim Opening (REAL CLEAR GLASS LIP — NO DARK FILL!) -->
-        <ellipse cx="150" cy="60" rx="68" ry="10"
-          fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.92)" stroke-width="2.4"/>
-        <ellipse cx="150" cy="61" rx="64" ry="8"
-          fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
-
-        <!-- 13. Heavy Glass Base Bottom Outline -->
-        <ellipse cx="150" cy="430" rx="54" ry="8"
-          fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.50)" stroke-width="1.8"/>
+        <!-- 9. Signature Dark Top Rim Ellipse (Matches Reference Image) -->
+        <ellipse cx="150" cy="62" rx="70" ry="11"
+          fill="rgba(20,16,22,0.85)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
 
       </g>
 
