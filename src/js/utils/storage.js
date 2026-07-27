@@ -50,7 +50,9 @@ export function saveUserData(state) {
 
 export const StorageManager = {
   load: loadUserData,
-  save: saveUserData
+  save: saveUserData,
+  loadUserData: loadUserData,
+  saveUserData: saveUserData
 };
 
 export default StorageManager;

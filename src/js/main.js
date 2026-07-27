@@ -1,17 +1,17 @@
 /* Lassi Emotions - Main Application Entrypoint */
 
-import { loadUserData, saveUserData, StorageManager } from './utils/storage.js?v=2.1.0';
-import { I18nManager } from './utils/i18n.js?v=2.1.0';
-import { ParticleEmitter } from './utils/particles.js?v=2.1.0';
-import { SentimentNlpEngine } from './engine/sentimentNlp.js?v=2.1.0';
-import { MockMlApiService } from './engine/mockMlApi.js?v=2.1.0';
-import { EmotionEngine } from './engine/emotionEngine.js?v=2.1.0';
-import { soundEngine } from './utils/soundEngine.js?v=2.1.0';
+import { loadUserData, saveUserData, StorageManager } from './utils/storage.js';
+import { I18nManager } from './utils/i18n.js';
+import { ParticleEmitter } from './utils/particles.js';
+import { SentimentNlpEngine } from './engine/sentimentNlp.js';
+import { MockMlApiService } from './engine/mockMlApi.js';
+import { EmotionEngine } from './engine/emotionEngine.js';
+import { soundEngine } from './utils/soundEngine.js';
 
-import { LassiGlassComponent } from './components/lassiGlass.js?v=2.1.0';
-import { ControlsComponent } from './components/controls.js?v=2.1.0';
-import { SentimentUIComponent } from './components/sentimentUI.js?v=2.1.0';
-import { GamificationUIComponent } from './components/gamificationUI.js?v=2.1.0';
+import { LassiGlassComponent } from './components/lassiGlass.js';
+import { ControlsComponent } from './components/controls.js';
+import { SentimentUIComponent } from './components/sentimentUI.js';
+import { GamificationUIComponent } from './components/gamificationUI.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -19,8 +19,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('./assets/data/emotions_dataset.json?v=2.1.0');
     const dataset = await response.json();
 
-    // 2. Initialize Utilities & Services
-    const initialUserData = typeof loadUserData === 'function' ? loadUserData() : (StorageManager ? StorageManager.load() : {});
+    let initialUserData = { language: 'en' };
+    try {
+      initialUserData = loadUserData();
+    } catch (e) {
+      console.warn('Using default initial user data:', e);
+    }
     const i18n = new I18nManager(initialUserData.language || 'en');
     i18n.updateDOM();
 

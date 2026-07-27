@@ -329,3 +329,65 @@
   font-weight: 600;
   text-align: center;
 }
+
+/* Mobile Responsive Component Adjustments */
+@media (max-width: 768px) {
+  .category-tabs {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    gap: 6px;
+  }
+
+  .tab-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .emotions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 320px;
+    gap: 6px;
+  }
+
+  .emotion-card {
+    padding: 10px 6px;
+    font-size: 12px;
+    min-height: 44px;
+  }
+
+  .modal-card {
+    width: 92vw !important;
+    max-height: 85vh !important;
+    padding: 18px 14px !important;
+    border-radius: var(--radius-lg);
+  }
+
+  .camera-pip {
+    width: 150px !important;
+    right: 10px !important;
+    bottom: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .emotions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 340px;
+  }
+
+  .emotion-card {
+    font-size: 11px;
+    padding: 8px 4px;
+    gap: 3px;
+  }
+
+  .select-input, .search-input {
+    font-size: 12px;
+    padding: 9px 12px 9px 36px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}

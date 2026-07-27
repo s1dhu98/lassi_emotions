@@ -1,6 +1,4 @@
-/* Lassi Emotions - Emotion State Engine & Dispatcher */
-
-import { loadUserData, saveUserData, StorageManager } from '../utils/storage.js?v=2.1.0';
+import { loadUserData, saveUserData, StorageManager } from '../utils/storage.js';
 
 export class EmotionEngine {
   constructor(dataset, particleEmitter) {
@@ -9,11 +7,10 @@ export class EmotionEngine {
     
     // Application State with Defensive Storage Fallback
     let loadedUser = null;
-    if (typeof loadUserData === 'function') {
+    try {
       loadedUser = loadUserData();
-    } else if (StorageManager && typeof StorageManager.load === 'function') {
-      loadedUser = StorageManager.load();
-    } else {
+    } catch (e) {
+      console.warn('Fallback loading user data:', e);
       loadedUser = {
         language: 'en', theme: 'midnight', favorites: ['happy'], streak: 1,
         lastVisit: new Date().toISOString(), exploredEmotions: ['happy'],
