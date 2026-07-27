@@ -92,29 +92,6 @@ Right click `index.html` in VS Code and click **Open with Live Server**.
 
 ---
 
-## 🌐 Deployment Options
-
-Deploying **Lassi Emotions** is instantaneous since it consists of static frontend assets.
-
-### 1. GitHub Pages
-1. Push your repository to GitHub.
-2. Go to **Settings** → **Pages**.
-3. Under **Build and deployment** → **Branch**, select `main` / `root` and click **Save**.
-4. Your site will be live at `https://<username>.github.io/lassi_emotions/`.
-
-### 2. Vercel
-```bash
-npx -y vercel
-```
-Or import your GitHub repo directly in the [Vercel Dashboard](https://vercel.com).
-
-### 3. Netlify
-```bash
-npx -y netlify-cli deploy --prod --dir=.
-```
-Or drag and drop your project folder onto [Netlify Drop](https://app.netlify.com/drop).
-
----
 
 ## 🎮 How to Customize
 
