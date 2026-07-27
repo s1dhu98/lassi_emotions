@@ -117,11 +117,11 @@ export class LassiGlassComponent {
     // Drain liquid level for broken/sad state
     if (this.lassiRect) {
       if (isBrokenSad) {
-        this.lassiRect.setAttribute('y', '130');
-        this.lassiRect.setAttribute('height', '310');
+        this.lassiRect.setAttribute('y', '140');
+        this.lassiRect.setAttribute('height', '280');
       } else {
-        this.lassiRect.setAttribute('y', '72');
-        this.lassiRect.setAttribute('height', '365');
+        this.lassiRect.setAttribute('y', '55');
+        this.lassiRect.setAttribute('height', '360');
       }
     }
 
