@@ -1,131 +1,139 @@
-# Lassi Emotions — Interactive Animation Demo 🥛✨
+# Lassi Emotions 🥛✨
 
-An interactive web animation featuring a glass of lassi that responds to 60+ emotions with dynamic facial expressions, particle effects, and color transformations. Built with pure SVG, CSS, and JavaScript.
+> **An interactive, AI-powered sentiment & emotion visualization engine.**  
+> Transform text inputs, moods, and feelings into dynamic, animated vector glass reactions with customizable toppings, physics wave simulations, and dual Hindi/English i18n support.
 
-## ✨ Features
+![Lassi Emotions Showcase](assets/images/lassi_showcase.svg)
 
-- **60+ Unique Emotions** across 10 emotional spectrums:
-  - Joy (happy, ecstatic, delighted...)
-  - Sadness (sad, melancholic, gloomy...)
-  - Anger (angry, furious, grumpy...)
-  - Fear (scared, anxious, nervous...)
-  - Love (love, adoring, passionate...)
-  - And many more!
-
-- **Rich Visual Effects**:
-  - Dynamic facial expressions
-  - Liquid animations with color changes
-  - Particle systems (confetti, tears, hearts, stars)
-  - Rainbow bubbles and sparks
-
-- **Interactive UI**:
-  - Search emotions in real-time
-  - Random emotion button
-  - Reset animation state
-  - Mobile-friendly interface
-
-## 🚀 Quick Start
-
-1. Clone or download this repository
-2. Open `index.html` in a modern browser
-   - Windows: Right-click → Open with → Chrome/Firefox/Edge
-   - Mac: Open with Safari/Chrome
-   - Linux: `xdg-open index.html`
-
-## 🎨 Customization
-
-### Adding New Emotions
-
-1. Add your emotion to the `EMOTIONS` array in `script.js`:
-```javascript
-const EMOTIONS = [
-  'your-emotion',
-  // ... existing emotions
-];
-```
-
-2. Add CSS styles in `styles.css`:
-```css
-.emotion-your-emotion {
-  /* Base styles */
-}
-
-.emotion-your-emotion #lassi {
-  /* Lassi styles */
-}
-
-.emotion-your-emotion #face {
-  /* Face animation */
-}
-```
-
-### Modifying Animations
-
-- Particle effects: Adjust counts and speeds in `script.js`
-- Face expressions: Modify SVG paths in the `animateFace()` function
-- Colors: Update gradients in `updateLiquidGradient()`
-
-## 💻 Browser Support
-
-Tested and working in:
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
-## 📱 Device Support
-
-- Desktop: Full experience with all animations
-- Tablet: Optimized layout and particle counts
-- Mobile: Touch-friendly UI with performance optimizations
-- Low-power devices: Automatic animation simplification
-
-## 🛠 Technical Details
-
-### File Structure
-```
-├── index.html      # Main HTML and SVG structure
-├── styles.css      # Animations and responsive styles
-└── script.js       # Interaction and particle system
-```
-
-### Technologies
-- SVG for scalable graphics
-- CSS3 animations and transforms
-- Vanilla JavaScript (no dependencies)
-- Responsive design with CSS Grid/Flexbox
-
-### Performance Features
-- Dynamic particle count adjustment
-- Automatic cleanup of completed animations
-- Touch event optimization
-- Responsive image scaling
-- Font preloading
-
-## 🤝 Contributing
-
-Feel free to:
-- Add new emotions
-- Improve animations
-- Enhance particle effects
-- Optimize performance
-
-## 📝 License
-
-MIT License - Feel free to use and modify!
-
-## 🐛 Troubleshooting
-
-If animations aren't smooth:
-1. Try reducing browser tabs
-2. Check hardware acceleration settings
-3. Use a more powerful device
-
-For best experience:
-- Use a modern browser
-- Enable hardware acceleration
-- View on a device with decent GPU
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Vanilla JS](https://img.shields.io/badge/Vanilla_JS-ES6_Modules-F7DF1E?logo=javascript)](https://developer.mozilla.org)
+[![CSS3 Glassmorphic](https://img.shields.io/badge/Styling-Vanilla_CSS_Glassmorphic-1572B6?logo=css3)](src/css/main.css)
+[![i18n Ready](https://img.shields.io/badge/i18n-English_%2B_Hindi-FF9900)](src/js/utils/i18n.js)
+[![NLP AI Engine](https://img.shields.io/badge/NLP_AI-Sentiment_Lexicon-4FACFE)](src/js/engine/sentimentNlp.js)
 
 ---
 
-Created with 💖 and lots of lassi! Enjoy!
+## ✨ Features at a Glance
+
+| Feature | Description |
+| :--- | :--- |
+| 🎭 **50+ Emotions** | Curated across 10 spectrums (Joy, Sadness, Anger, Fear, Love, Surprise, Energy, Calm, Playful, Confidence). |
+| 🧠 **NLP Sentiment AI** | Real-time sentence parser & sentiment classification engine with confidence breakdown. |
+| 🌾 **Custom Toppings** | Garnish your lassi with Kesar (Saffron), Pista (Pistachio), Gulab (Rose Petals), Mango Drizzle, or Sprinkles. |
+| 🎨 **Theme Aesthetics** | Toggle between Midnight Velvet, Mango Gold, Rose Royale, Matcha Zen, and Cosmic Twilight themes. |
+| 🌐 **Bilingual (EN / HI)** | Instant one-click language toggle between English and Hindi for UI & emotion vocabulary. |
+| 🏆 **Gamified System** | Daily visit streaks, 6 unlockable achievement badges, and persistent progress scoreboard. |
+| 📱 **Responsive & Mobile** | Fully responsive layout with touch support, dynamic particle limits, and device optimization. |
+
+---
+
+## 🏗️ Project Architecture
+
+Built with pure Vanilla JavaScript (Native ES Modules), modular CSS, and scalable SVG graphics — **zero external npm build tools required to run!**
+
+```
+lassi_emotions/
+├── index.html                    # Redesigned semantic glassmorphism interface
+├── README.md                     # Open-source showcase documentation
+├── ROADMAP.md                    # Product development roadmap
+├── config.md                     # Customization & configuration guide
+├── assets/
+│   ├── data/
+│   │   └── emotions_dataset.json # Emotion mapping, facial geometry & lexicon data
+│   └── images/
+│       └── lassi_showcase.svg    # Vector showcase banner
+└── src/
+    ├── css/
+    │   ├── main.css              # Design tokens, variables & glassmorphism layout
+    │   ├── components.css        # Buttons, cards, search, sliders, modals & tabs
+    │   └── animations.css        # Wave physics, particle emitters & face keyframes
+    └── js/
+        ├── main.js               # Application bootstrapper
+        ├── engine/
+        │   ├── emotionEngine.js  # State manager & event dispatcher
+        │   ├── sentimentNlp.js   # Lexicon NLP text analyzer
+        │   └── mockMlApi.js      # Async ML inference simulation
+        ├── components/
+        │   ├── lassiGlass.js     # SVG face morphing & liquid glass rendering
+        │   ├── controls.js       # Sliders, category tabs & search listeners
+        │   ├── sentimentUI.js    # Sentiment text input widget
+        │   └── gamificationUI.js # Streaks & achievement modal
+        └── utils/
+            ├── particles.js      # Confetti, tears, bubbles, hearts & stars emitter
+            ├── i18n.js           # Bilingual English/Hindi dictionary
+            └── storage.js        # LocalStorage persistence manager
+```
+
+---
+
+## 🚀 Quick Start & Local Setup
+
+Because Lassi Emotions uses native ES Modules (`type="module"`), it is best served using any lightweight local HTTP server.
+
+### Option 1: Using `npx serve` (Recommended)
+```bash
+# Clone the repository
+git clone https://github.com/s1dhu98/lassi_emotions.git
+cd lassi_emotions
+
+# Start local dev server
+npx -y serve .
+```
+Open `http://localhost:3000` in your browser.
+
+### Option 2: Using Python HTTP Server
+```bash
+python -m http.server 8000
+```
+Open `http://localhost:8000` in your browser.
+
+### Option 3: VS Code Live Server
+Right click `index.html` in VS Code and click **Open with Live Server**.
+
+---
+
+## 🌐 Deployment Options
+
+Deploying **Lassi Emotions** is instantaneous since it consists of static frontend assets.
+
+### 1. GitHub Pages
+1. Push your repository to GitHub.
+2. Go to **Settings** → **Pages**.
+3. Under **Build and deployment** → **Branch**, select `main` / `root` and click **Save**.
+4. Your site will be live at `https://<username>.github.io/lassi_emotions/`.
+
+### 2. Vercel
+```bash
+npx -y vercel
+```
+Or import your GitHub repo directly in the [Vercel Dashboard](https://vercel.com).
+
+### 3. Netlify
+```bash
+npx -y netlify-cli deploy --prod --dir=.
+```
+Or drag and drop your project folder onto [Netlify Drop](https://app.netlify.com/drop).
+
+---
+
+## 🎮 How to Customize
+
+- **Add New Emotions**: Simply add an emotion entry to `assets/data/emotions_dataset.json` with keywords, SVG mouth path, and particle type.
+- **Add New Themes**: Define new CSS variable tokens under `body.theme-<name>` in `src/css/main.css`.
+- **Add Badges**: Add achievement definitions to `BADGES_LIST` in `src/js/components/gamificationUI.js`.
+
+---
+
+## 🗺️ Product Roadmap
+
+Check out our full roadmap in [ROADMAP.md](ROADMAP.md) for upcoming features including WebAudio sound synthesis, webcam face tracking, and 3D liquid WebGL physics!
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See `LICENSE` for details.
+
+---
+
+Created with 💖 and lots of lassi by [s1dhu98](https://github.com/s1dhu98). Contributions and stars are welcome! 🥛✨

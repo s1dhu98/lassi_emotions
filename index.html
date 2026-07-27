@@ -1,71 +1,404 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <meta name="theme-color" content="#0f1724" />
-  <title>Lassi Emotions — Interactive</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Preload fonts and prevent layout shift -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lassi Emotions — Interactive Sentiment Engine &amp; Visualizer</title>
+  <meta name="description" content="Explore 65+ rich human emotions mapped into dynamic, cute 3D volumetric Lassi glass reactions with real-time NLP sentiment analysis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/css/main.css" />
+  <link rel="stylesheet" href="src/css/components.css" />
+  <link rel="stylesheet" href="src/css/animations.css" />
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <h1>Pick an emotion</h1>
-      <div class="search-container">
-        <input type="text" id="emotion-search" placeholder="Search emotions..." />
-        <div class="search-icon">🔍</div>
+<div class="app-container">
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon">🥛</span>
+      <h1 class="brand-title">Lassi Emotions</h1>
+      <span class="brand-tag">v2.0 NLP ENGINE</span>
+    </div>
+    <div class="header-actions">
+      <div class="gamify-bar">
+        <div id="streak-pill"   class="streak-pill" title="Daily Visit Streak"><span id="streak-count">1 🔥</span></div>
+        <div id="badge-pill-btn" class="badge-pill"  title="Unlocked Badges"><span id="badge-count">1 / 6 🏆</span></div>
       </div>
-      <div id="emotions" class="emotions-grid"></div>
-      <div class="controls">
-        <button id="btn-random">✨ Random</button>
-        <button id="btn-reset">↺ Reset</button>
+      <button id="btn-sound-toggle" class="btn btn-icon">🔊 ON</button>
+      <button id="btn-lang-toggle"  class="btn btn-icon">🌐 HI</button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <div class="control-group">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="emotion-search" class="search-input" placeholder="Search emotions..." />
       </div>
-      <p class="hint">Tip: Try dramatic ones like <em>ecstatic</em>, <em>melancholic</em>, or <em>playful</em>.</p>
-    </aside>
+    </div>
+    <div id="category-tabs" class="category-tabs"></div>
+    <div id="emotions-grid" class="emotions-grid"></div>
+    <div class="controls-panel">
+      <div class="control-group">
+        <div class="control-label">
+          <span>Emotion Intensity</span>
+          <span id="val-intensity" class="control-val">100%</span>
+        </div>
+        <input type="range" id="slider-intensity" class="slider-input" min="0.3" max="2.0" step="0.1" value="1.0" />
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <span>Wave Turbulence</span>
+          <span id="val-wave" class="control-val">3x</span>
+        </div>
+        <input type="range" id="slider-wave" class="slider-input" min="0.5" max="6.0" step="0.5" value="3.0" />
+      </div>
+      <div class="control-group">
+        <label for="select-topping" class="control-label">Lassi Topping</label>
+        <select id="select-topping" class="select-input">
+          <option value="none">✨ None (Plain Lassi)</option>
+          <option value="saffron">🌾 Kesar (Saffron)</option>
+          <option value="pistachio">🟢 Pista (Pistachio)</option>
+          <option value="rose">🌹 Gulab (Rose Petals)</option>
+          <option value="mango">🥭 Aam (Mango Drizzle)</option>
+          <option value="sprinkles">✨ Rainbow Sprinkles</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="select-theme" class="control-label">Theme Aesthetic</label>
+        <select id="select-theme" class="select-input">
+          <option value="midnight">🌙 Midnight Velvet</option>
+          <option value="mango">🥭 Sweet Mango Gold</option>
+          <option value="rose">🌸 Gulab Blossom</option>
+          <option value="matcha">🍵 Royal Matcha</option>
+          <option value="cosmic">✨ Cosmic Twilight</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button id="btn-random"   class="btn btn-accent" style="flex:1;">✨ Random</button>
+        <button id="btn-reset"    class="btn"            style="flex:1;">🔄 Reset</button>
+        <button id="btn-favorite" class="btn btn-icon">❤️</button>
+      </div>
+    </div>
+    <section class="sentiment-section">
+      <h3 class="sentiment-header">🧠 Type how you feel (NLP Sentiment)</h3>
+      <textarea id="sentiment-input" class="sentiment-textarea"
+        placeholder="e.g., I am feeling super thrilled and joyful today!"></textarea>
+      <button id="btn-analyze-sentiment" class="btn btn-accent" style="width:100%;">Analyze Text</button>
+      <div id="sentiment-badge" class="sentiment-badge" style="display:none;"></div>
+    </section>
+  </aside>
 
-    <main class="stage">
-      <div class="scene">
-        <div id="particles" class="particles"></div>
-        <!-- SVG glass and lassi -->
-        <svg id="glass" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="lassiGrad" x1="0" x2="1">
-              <stop offset="0%" stop-color="#fff7e6" />
-              <stop offset="100%" stop-color="#ffe6f2" />
-            </linearGradient>
-            <clipPath id="glassClip">
-              <path d="M60 30 L240 30 L210 420 L90 420 Z" />
-            </clipPath>
-          </defs>
+  <main class="stage-view">
+    <div id="particles" class="particles-layer"></div>
 
-          <!-- Glass outline -->
-          <path class="glass-outline" d="M60 30 L240 30 L210 420 L90 420 Z" fill="rgba(255,255,255,0.06)" stroke="#bcd" stroke-width="3"/>
+    <svg id="glass" class="glass-3d"
+         viewBox="0 0 300 500" width="390" height="510"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
 
-          <!-- Lassi liquid group -->
-          <g id="lassiGroup" clip-path="url(#glassClip)">
-            <rect id="lassi" x="60" y="170" width="180" height="250" rx="20" ry="20" fill="url(#lassiGrad)" />
-            <!-- animated surface wave -->
-            <path id="surface" class="surface" d="M60 220 Q120 200 180 220 T300 220 L300 420 L60 420 Z" fill="#fff8ee" opacity="0.9"/>
-            <!-- face -->
-            <g id="face" transform="translate(0,0)">
-              <g id="eyes" class="eyes">
-                <ellipse cx="120" cy="250" rx="8" ry="6" fill="#111" />
-                <ellipse cx="180" cy="250" rx="8" ry="6" fill="#111" />
-              </g>
-              <path id="mouth" d="M130 285 Q150 300 170 285" stroke="#552" stroke-width="4" stroke-linecap="round" fill="none" />
+        <!-- ▸ Liquid base gradient — JS swaps colours per emotion -->
+        <linearGradient id="lassiGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop id="lassiStop1" offset="0%"   stop-color="#fff8e1"/>
+          <stop id="lassiStop2" offset="100%" stop-color="#ffe082"/>
+        </linearGradient>
+
+        <!-- ▸ Liquid 3D depth overlay — brighter inner centre, darker outer rim.
+             Applied as a second rect on top of the liquid to simulate volume/depth. -->
+        <radialGradient id="lassiDepth" cx="42%" cy="38%" r="58%">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.28"/>
+          <stop offset="55%"  stop-color="#ffffff" stop-opacity="0.05"/>
+          <stop offset="100%" stop-color="#000000" stop-opacity="0.14"/>
+        </radialGradient>
+
+        <!-- ▸ Foam wave surface gradient -->
+        <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.98"/>
+          <stop offset="100%" stop-color="#fffde7" stop-opacity="0.82"/>
+        </linearGradient>
+
+        <!--
+          ▸ SPHERICAL FOAM BUBBLE GRADIENT
+            Top-left bright spot (specular) → mid creamy → bottom-right darker.
+            Applied to all bubbles to make them look like 3D spheres.
+        -->
+        <radialGradient id="bubGrad" cx="32%" cy="28%" r="68%">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.96"/>
+          <stop offset="38%"  stop-color="#fffde7" stop-opacity="0.80"/>
+          <stop offset="72%"  stop-color="#ffeeb0" stop-opacity="0.62"/>
+          <stop offset="100%" stop-color="#e8c860" stop-opacity="0.38"/>
+        </radialGradient>
+
+        <!-- ▸ Glass wall overlay — left bright (thick glass wall) → clear centre → right slight bright -->
+        <linearGradient id="glassOverlay" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.50"/>
+          <stop offset="11%"  stop-color="#ffffff" stop-opacity="0.10"/>
+          <stop offset="48%"  stop-color="#ffffff" stop-opacity="0.02"/>
+          <stop offset="89%"  stop-color="#ffffff" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.36"/>
+        </linearGradient>
+
+        <!-- ▸ Bottom glass base glow (warm reflection at bottom) -->
+        <radialGradient id="baseGlow" cx="50%" cy="0%" r="100%">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.00"/>
+        </radialGradient>
+
+        <!-- ▸ Topping gradients -->
+        <linearGradient id="saffronGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#d50000"/>
+          <stop offset="50%"  stop-color="#ff6d00"/>
+          <stop offset="100%" stop-color="#ffab00"/>
+        </linearGradient>
+        <linearGradient id="pistaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#33691e"/>
+          <stop offset="60%"  stop-color="#689f38"/>
+          <stop offset="100%" stop-color="#aed581"/>
+        </linearGradient>
+        <linearGradient id="roseGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#880e4f"/>
+          <stop offset="50%"  stop-color="#d81b60"/>
+          <stop offset="100%" stop-color="#ff4081"/>
+        </linearGradient>
+        <linearGradient id="mangoGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#ff6f00"/>
+          <stop offset="60%"  stop-color="#ffb703"/>
+          <stop offset="100%" stop-color="#ffe082"/>
+        </linearGradient>
+
+        <!-- ▸ Drop shadow for whole glass -->
+        <filter id="glassShadow" x="-18%" y="-10%" width="136%" height="128%">
+          <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000" flood-opacity="0.52"/>
+        </filter>
+
+        <!-- ▸ Floor glow blur -->
+        <filter id="blurShadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="10"/>
+        </filter>
+
+        <!-- ▸ Bubble soft shadow/glow -->
+        <filter id="bubShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="1.5"/>
+        </filter>
+
+        <!--
+          ▸ THE GLASS CLIP PATH — Cute Rounded Stemless Tumbler Glass
+            Narrow opening top (x=80→220), wide bulging belly in center (x=42→258),
+            tapering to a rounded bottom base (x=95→205).
+        -->
+        <clipPath id="glassClip">
+          <path d="M 80 60 C 65 60, 48 110, 42 220 C 38 330, 58 425, 95 435 C 120 442, 180 442, 205 435 C 242 425, 262 330, 258 220 C 252 110, 235 60, 220 60 Z"/>
+        </clipPath>
+
+      </defs>
+
+      <!-- ── Floor glow shadow ── -->
+      <ellipse cx="150" cy="458" rx="85" ry="14"
+        fill="#000" opacity="0.38" filter="url(#blurShadow)"/>
+
+      <!-- ── Spilled lassi puddle (heartbreak / sadness) ── -->
+      <g id="spillGroup" style="opacity:0;transition:opacity 0.5s ease;">
+        <ellipse cx="150" cy="458" rx="112" ry="18" fill="url(#lassiGrad)" opacity="0.85"/>
+        <ellipse cx="150" cy="458" rx="96"  ry="11" fill="#fff"             opacity="0.38"/>
+        <circle cx="80"  cy="454" r="5.5" fill="url(#lassiGrad)"/>
+        <circle cx="220" cy="461" r="6.5" fill="url(#lassiGrad)"/>
+        <circle cx="238" cy="453" r="3.8" fill="url(#lassiGrad)"/>
+        <circle cx="64"  cy="463" r="3"   fill="url(#lassiGrad)"/>
+      </g>
+
+      <!--
+        ════════════════════════════════════════════════════════════
+         CUTE ROUNDED STEMLESS TUMBLER GLASS BODY
+        ════════════════════════════════════════════════════════════
+      -->
+      <g filter="url(#glassShadow)">
+        <g clip-path="url(#glassClip)">
+
+          <!-- 1. Liquid fill (full glass height) -->
+          <rect id="lassi" x="35" y="55" width="230" height="390" fill="url(#lassiGrad)"/>
+
+          <!-- 2. Liquid 3D depth overlay (gives volume/roundness to liquid) -->
+          <rect x="35" y="55" width="230" height="390" fill="url(#lassiDepth)"/>
+
+          <!-- 3. Animated foam surface wave -->
+          <path id="surface" class="wave-surface"
+            d="M 35 85 Q 92 70 150 85 T 265 85 L 265 110 Q 150 125 35 110 Z"
+            fill="url(#foamGrad)"/>
+
+          <!-- 4. 3D FOAM BUBBLES — spherical radial gradient + shine dot -->
+          <g id="foamBubbles">
+
+            <!-- Back row -->
+            <g class="bub-d">
+              <circle cx="96"  cy="82" r="8"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="93"  cy="79" r="2.4" fill="rgba(255,255,255,0.92)"/>
+            </g>
+            <g class="bub-g">
+              <circle cx="116" cy="78" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="112" cy="74" r="3"  fill="rgba(255,255,255,0.92)"/>
+            </g>
+            <g class="bub-j">
+              <circle cx="138" cy="75" r="9"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="134" cy="71" r="2.7" fill="rgba(255,255,255,0.92)"/>
+            </g>
+            <g class="bub-b">
+              <circle cx="160" cy="73" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="155" cy="69" r="3.3" fill="rgba(255,255,255,0.92)"/>
+            </g>
+            <g class="bub-k">
+              <circle cx="182" cy="76" r="9"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="178" cy="72" r="2.7" fill="rgba(255,255,255,0.92)"/>
+            </g>
+            <g class="bub-e">
+              <circle cx="202" cy="80" r="8"  fill="url(#bubGrad)" stroke="rgba(255,255,255,0.45)" stroke-width="0.8"/>
+              <circle cx="198" cy="76" r="2.4" fill="rgba(255,255,255,0.92)"/>
+            </g>
+
+            <!-- Front row -->
+            <g class="bub-a">
+              <circle cx="86"  cy="96" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="81"  cy="91" r="3"  fill="rgba(255,255,255,0.95)"/>
+            </g>
+            <g class="bub-h">
+              <circle cx="110" cy="93" r="13" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="104" cy="87" r="4"  fill="rgba(255,255,255,0.95)"/>
+            </g>
+            <g class="bub-c">
+              <circle cx="135" cy="99" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="129" cy="93" r="3.3" fill="rgba(255,255,255,0.95)"/>
+            </g>
+            <g class="bub-f">
+              <circle cx="155" cy="97" r="14" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="148" cy="90" r="4.2" fill="rgba(255,255,255,0.95)"/>
+            </g>
+            <g class="bub-i">
+              <circle cx="178" cy="99" r="11" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="172" cy="93" r="3.3" fill="rgba(255,255,255,0.95)"/>
+            </g>
+            <g class="bub-l">
+              <circle cx="200" cy="94" r="10" fill="url(#bubGrad)" stroke="rgba(255,255,255,0.50)" stroke-width="1"/>
+              <circle cx="195" cy="89" r="3"  fill="rgba(255,255,255,0.95)"/>
             </g>
           </g>
 
-          <!-- glass reflections -->
-          <path d="M80 60 C95 50, 110 50, 130 60" stroke="#fff" stroke-opacity="0.2" stroke-width="8" fill="none" />
-        </svg>
-      </div>
-      <footer class="footer">Lassi Emotions — 40+ reactions. Colors, bubbles, particles & facial animations.</footer>
-    </main>
-  </div>
+          <!-- 5. Toppings -->
+          <g id="toppingsGroup"></g>
 
-  <script src="script.js"></script>
+          <!-- 6. Glass wall overlay -->
+          <rect x="35" y="55" width="230" height="390" fill="url(#glassOverlay)"/>
+
+          <!-- 7. Shimmer sweep -->
+          <rect class="glass-shimmer"
+            x="35" y="55" width="30" height="390"
+            fill="rgba(255,255,255,0.16)" rx="8" pointer-events="none"/>
+
+          <!-- 8. Left wall curved caustics (following tumbler shape) -->
+          <path d="M 80 65 C 64 120, 52 220, 92 432"
+            stroke="rgba(255,255,255,0.42)" stroke-width="12"
+            stroke-linecap="round" fill="none"/>
+          <path d="M 82 65 C 66 120, 54 220, 94 432"
+            stroke="rgba(255,255,255,0.78)" stroke-width="3.2"
+            stroke-linecap="round" fill="none"/>
+
+          <!-- 9. Right wall faint caustic -->
+          <path d="M 220 65 C 236 120, 248 220, 208 432"
+            stroke="rgba(255,255,255,0.18)" stroke-width="8"
+            stroke-linecap="round" fill="none"/>
+
+          <!-- 10. Bottom base warm glow -->
+          <ellipse cx="150" cy="432" rx="70" ry="12" fill="url(#baseGlow)"/>
+
+        </g>
+
+        <!-- 11. Glass outer contour outline (smooth curved tumbler contour) -->
+        <path d="M 80 60 C 65 60, 48 110, 42 220 C 38 330, 58 425, 95 435 C 120 442, 180 442, 205 435 C 242 425, 262 330, 258 220 C 252 110, 235 60, 220 60 Z"
+          fill="none"
+          stroke="rgba(255,255,255,0.65)" stroke-width="3.2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- 12. Top rim opening lip ellipse -->
+        <ellipse cx="150" cy="60" rx="70" ry="10"
+          fill="rgba(16,12,26,0.60)" stroke="rgba(255,255,255,0.85)" stroke-width="2.6"/>
+
+        <!-- 13. Bottom base oval -->
+        <ellipse cx="150" cy="435" rx="55" ry="9"
+          fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+      </g>
+
+      <!-- Glass cracks (sadness / heartbreak emotions) -->
+      <g id="glassCracks" style="opacity:0;transition:opacity 0.5s ease;"
+         stroke="rgba(255,255,255,0.88)" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <path d="M 120 180 L 142 220 L 130 250 L 155 285 M 142 220 L 170 210"/>
+        <path d="M 190 290 L 175 330 L 195 360 M 175 330 L 150 320"/>
+        <path d="M 152 176 L 160 208 L 146 232"/>
+      </g>
+
+      <!-- ══════════════════════════════════════════════════
+           KAWAII FACE — always rendered outside clip path,
+           so it sits clearly on top of the glass at all times.
+           ══════════════════════════════════════════════════ -->
+      <g id="face" transform="translate(0,0)">
+        <g id="eyebrowsGroup">
+          <path id="eyebrowLeft"  d="" stroke="#181412" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path id="eyebrowRight" d="" stroke="#181412" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <g id="eyes" class="eyes-container">
+          <g id="eyeLeft" transform="translate(115, 240)">
+            <ellipse class="pupil"       cx="0"  cy="0"  rx="14" ry="14" fill="#181412"/>
+            <circle  class="shine-big"   cx="-4" cy="-4" r="4.5"         fill="#ffffff"/>
+            <circle  class="shine-small" cx="4"  cy="4"  r="2"           fill="#ffffff"/>
+            <path    class="eye-shape"   d=""/>
+          </g>
+          <g id="eyeRight" transform="translate(185, 240)">
+            <ellipse class="pupil"       cx="0"  cy="0"  rx="14" ry="14" fill="#181412"/>
+            <circle  class="shine-big"   cx="-4" cy="-4" r="4.5"         fill="#ffffff"/>
+            <circle  class="shine-small" cx="4"  cy="4"  r="2"           fill="#ffffff"/>
+            <path    class="eye-shape"   d=""/>
+          </g>
+        </g>
+
+        <!-- Blush cheeks (slightly larger, more visible) -->
+        <g id="blushGroup" opacity="1">
+          <ellipse cx="96"  cy="258" rx="14" ry="8" fill="#ff758c" opacity="0.65"/>
+          <ellipse cx="204" cy="258" rx="14" ry="8" fill="#ff758c" opacity="0.65"/>
+        </g>
+
+        <!-- Tears (sadness emotions) -->
+        <g id="tearsLayer" style="opacity:0;transition:opacity 0.4s ease;">
+          <path d="M 115 252 C 112 270 110 286 112 302"
+            stroke="#4facfe" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.88"/>
+          <path d="M 185 252 C 188 270 190 286 188 302"
+            stroke="#4facfe" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.88"/>
+          <circle cx="112" cy="305" r="4" fill="#4facfe"/>
+          <circle cx="188" cy="305" r="4" fill="#4facfe"/>
+        </g>
+
+        <!-- Cute smile -->
+        <path id="mouth" d="M 140 266 Q 150 278 160 266"
+          stroke="#181412" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+
+        <!-- Tongue (happy / playful emotions) -->
+        <path id="tongue" d="M 146 270 Q 150 282 154 270 Z"
+          fill="#ff4081" style="opacity:0;"/>
+      </g>
+    </svg>
+  </main>
+</div>
+
+<!-- Achievements Modal -->
+<div id="achievements-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <h2 style="font-size:20px;font-weight:800;">🏆 Unlocked Achievements</h2>
+      <button id="modal-close-btn" class="btn btn-icon" style="border:none;">✕</button>
+    </div>
+    <div id="badges-grid" class="badges-grid"></div>
+  </div>
+</div>
+
+<script type="module" src="src/js/main.js?v=2.1.0"></script>
 </body>
 </html>

@@ -1,0 +1,183 @@
+/* Lassi Emotions - Core Design System & Design Tokens */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Brand Palette */
+  --bg-dark: #071029;
+  --bg-main: #0f1724;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-active: rgba(255, 255, 255, 0.08);
+  
+  /* Text & Accents */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-gold: #ffd57e;
+  --accent-pink: #fa709a;
+  --accent-blue: #4facfe;
+  --accent-green: #76ba1b;
+
+  /* Theme Presets (Default: Midnight Velvet) */
+  --theme-bg-gradient: linear-gradient(180deg, #071029 0%, #0f1724 60%, #18233c 100%);
+  --theme-accent: #ffd57e;
+  --theme-card-glow: rgba(255, 213, 126, 0.15);
+
+  /* Shadows & Easing */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+}
+
+/* Color Themes */
+body.theme-mango {
+  --theme-bg-gradient: linear-gradient(180deg, #1f1202 0%, #2b1a04 60%, #3d2407 100%);
+  --theme-accent: #ffb703;
+  --theme-card-glow: rgba(255, 183, 3, 0.2);
+}
+
+body.theme-rose {
+  --theme-bg-gradient: linear-gradient(180deg, #1f050c 0%, #2b0812 60%, #3a0c1a 100%);
+  --theme-accent: #ff4081;
+  --theme-card-glow: rgba(255, 64, 129, 0.2);
+}
+
+body.theme-matcha {
+  --theme-bg-gradient: linear-gradient(180deg, #05190e 0%, #0b2918 60%, #113a22 100%);
+  --theme-accent: #76ba1b;
+  --theme-card-glow: rgba(118, 186, 27, 0.2);
+}
+
+body.theme-cosmic {
+  --theme-bg-gradient: linear-gradient(180deg, #12042b 0%, #1b073d 60%, #280b57 100%);
+  --theme-accent: #b388ff;
+  --theme-card-glow: rgba(179, 136, 255, 0.2);
+}
+
+/* Reset & Global Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+  background: var(--theme-bg-gradient);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background 0.5s ease;
+}
+
+/* App Container Layout */
+.app-container {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+/* Header Navbar */
+.app-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(7, 16, 41, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 10px var(--theme-accent));
+}
+
+.brand-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ffffff, var(--theme-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 213, 126, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(255, 213, 126, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Main Layout Split */
+.sidebar {
+  background: var(--bg-card);
+  border-right: 1px solid var(--glass-border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--glass-border-hover);
+  border-radius: 4px;
+}
+
+.stage-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+  }
+}
